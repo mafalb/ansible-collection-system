@@ -1,0 +1,15 @@
+{% for setting in raspberry.firmware.settings %}
+{{ setting }}
+{% endfor %}
+
+{% for dtparam in raspberry.firmware.dtparams %}
+dtparam={{ dtparam }}
+{% endfor %}
+
+{% for dtoverlay in raspberry.firmware.dtoverlays %}
+dtoverlay={{ dtoverlay.dtoverlay }}
+{% for dtparam in dtoverlay.dtparams|default([]) -%}
+dtparam={{ dtparam }}
+{% endfor %}
+
+{% endfor %}

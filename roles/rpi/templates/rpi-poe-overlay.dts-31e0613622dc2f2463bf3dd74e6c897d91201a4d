@@ -1,0 +1,79 @@
+/*
+ * Overlay for the Raspberry Pi POE HAT.
+ */
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2708";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			fan0: rpi-poe-fan@0 {
+				compatible = "rpi-poe-fan";
+				firmware = <&firmware>;
+				cooling-min-state = <0>;
+				cooling-max-state = <6>;
+				#cooling-cells = <2>;
+				cooling-levels = <0 10 20 50 150 255>;
+				status = "okay";
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&cpu_thermal>;
+		__overlay__ {
+			trips {
+				always: trip-point@0 {
+					temperature = <6000>;
+                                        hysteresis = <5000>;
+                                        type = "active";
+                                };
+				target: trip-point@1 {
+					temperature = <55000>;
+					hysteresis = <5000>;
+					type = "active";
+				};
+				threshold1: trip-point@2 {
+					temperature = <60000>;
+					hysteresis = <3000>;
+					type = "active";
+				};
+				threshold2: trip-point@3 {
+					temperature = <65000>;
+					hysteresis = <2000>;
+					type = "active";
+				};
+				cpu_hot: cpu_hot@0 {
+					temperature = <70000>;
+					hysteresis = <1000>;
+					type = "active";
+				};
+			};
+			cooling-maps {
+				map0 {
+					trip = <&always>;
+					cooling-device = <&fan0 0 1>;
+				};
+				map1 {
+					trip = <&target>;
+					cooling-device = <&fan0 1 2>;
+				};
+				map2 {
+					trip = <&threshold1>;
+					cooling-device = <&fan0 2 3>;
+				};
+				map3 {
+					trip = <&threshold2>;
+					cooling-device = <&fan0 3 4>;
+				};
+				map4 {
+					trip = <&cpu_hot>;
+					cooling-device = <&fan0 4 5>;
+				};
+			};
+		};
+	};
+};

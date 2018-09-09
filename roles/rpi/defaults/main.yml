@@ -1,0 +1,8 @@
+# vim: ft=yaml ts=2:
+---
+
+raspberry:
+  firmware:
+    dtoverlays: {}
+    settings: {}
+      

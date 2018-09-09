@@ -1,0 +1,51 @@
+# vi: set ft=yaml ts=2:
+---
+
+- name: config.txt is present
+  template:
+    src: config.txt.j2
+    dest: /boot/config.txt
+  notify: reboot
+
+- name: cpufreq governor is set
+  lineinfile:
+    path: /etc/rc.d/rc.local
+    line: echo conservative >/sys/devices/system/cpu/cpufreq/policy0/scaling_governor
+    regexp: "^echo conservative >/sys/devices/system/cpu/cpufreq/policy0/scaling_governor"
+    mode: ugo+x
+
+- block:
+
+    - name: device tree compiler is installed
+      delegate_to: localhost
+      become: true
+      package:
+        name: dtc
+        state: installed
+    
+    - name: directory does exist
+      file:
+        path: "{{ playbook_dir }}/files/cache/{{ inventory_hostname }}"
+        state: directory
+    
+    - name: the device tree source is present
+      template:
+        src: rpi-poe-overlay.dts-31e0613622dc2f2463bf3dd74e6c897d91201a4d
+        dest: "{{ playbook_dir }}/files/cache/{{ inventory_hostname }}/rpi-poe-overlay.dts"
+       
+    - name: Makefile is present
+      template:
+        src: Makefile
+        dest: "{{ playbook_dir }}/files/cache/{{ inventory_hostname }}/"
+    
+    - name: the device tree file for poe hat is compiled
+      make:
+        chdir: "{{ playbook_dir }}/files/cache/{{ inventory_hostname }}"
+  
+  delegate_to: localhost
+
+- name: overlay is installed
+  copy:
+    src: cache/{{ inventory_hostname }}/rpi-poe.dtbo
+    dest: /boot/overlays/
+  notify: reboot

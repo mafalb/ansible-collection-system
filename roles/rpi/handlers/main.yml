@@ -1,0 +1,5 @@
+# vi: set ft=yaml ts=2:
+---
+
+- name: reboot
+  command: shutdown -r now
