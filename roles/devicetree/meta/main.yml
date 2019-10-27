@@ -3,6 +3,7 @@
 
 galaxy_info:
   role_name: devicetree
+  version: 1.0.1
   author: Markus Falb <markus.falb@mafalb.at>
   description: installs devicetree compiler
   license: GPLv3
