@@ -1,4 +1,4 @@
-# ansible-devicetree
+# mafalb.devicetree
 
 This ansible role installs the devicetree compiler.
 https://galaxy.ansible.com/mafalb/devicetree
