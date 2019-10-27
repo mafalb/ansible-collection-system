@@ -1,5 +1,13 @@
-# vi: set ft=yaml ts=2:
+# vi: set ft=yaml ts=2 expandtab:
 ---
 
+- name: compile rpi_poe_dtbo
+  command: dtc -@ -I dts -O dtb -o rpi-poe.dtbo rpi-poe-overlay.dts
+  args:
+    chdir: /boot/overlays
+  notify: reboot
+
 - name: reboot
-  command: shutdown -r now
+  reboot:
+
+...
