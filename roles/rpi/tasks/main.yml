@@ -11,27 +11,40 @@
     dest: /boot/config.txt
   notify: reboot
 
-- name: cpufreq governor is set
-  lineinfile:
-    path: "{{ __rc_local }}"
-    line: echo conservative >/sys/devices/system/cpu/cpufreq/policy0/scaling_governor
-    regexp: "^echo conservative >/sys/devices/system/cpu/cpufreq/policy0/scaling_governor"
-    mode: ugo+x
-
 - name: poe hat fan
   block:
 
-    - name: device tree compiler is installed
-      package:
-        name: dtc
-        state: installed
-
     - name: the device tree source is present
-      file:
+      copy:
         src: rpi-poe-overlay.dts
-        dest: /boot/overlays/rpi-poe-overlay.dts"
-        backup: true
+        dest: /root/rpi-poe-overlay.dts
       register: _raspberry_poe_overlay
-      notify: compile rpi_poe_dtbo
+      notify: compile dtb
 
+    - name: get mtime from dtb
+      stat:
+        path: /boot/overlays/rpi-poe.dtbo
+      register: _rpi_poe_dtb
+
+    - name: get mtime from dts
+      stat:
+        path: /boot/overlays/rpi-poe-overlay.dts
+      register: _rpi_poe_dts
+
+    - name: debug _rpi_poe_dtb
+      debug: var=_rpi_poe_dtb
+      tags:
+        - never
+        - debug
+
+    - name: debug _rpi_poe_dts
+      debug: var=_rpi_poe_dts
+      tags:
+        - never
+        - debug
+
+    - name: compile dtb if necessary
+      when: (not _rpi_poe_dts.stat.exists) or (_rpi_poe_dts.stat.mtime < _rpi_poe_dtb.stat.mtime)
+      debug: msg="compile dtb if necessary"
+      notify: compile dtb
 ...

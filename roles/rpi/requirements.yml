@@ -1,0 +1,8 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- src: https://github.com/mafalb/ansible-devicetree.git
+  version: master
+  name: mafalb.devicetree
+
+...
