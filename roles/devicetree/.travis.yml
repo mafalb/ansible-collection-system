@@ -1,0 +1,42 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+sudo: required
+dist: xenial
+language: minimal
+env:
+ global:
+   - ANSIBLE_ROLE_NAME=mafalb.devicetree
+   - CI=travis
+   - ANSIBLE_FORCE_COLOR=1
+matrix:
+  include:
+    - env:
+        - ANSIBLE_VERSION=2.7
+      addons:
+        apt:
+          sources:
+            - sourceline: "ppa:ansible/ansible-2.7"
+          packages:
+            - ansible
+    - env:
+        - ANSIBLE_VERSION=2.8
+      addons:
+        apt:
+          sources:
+            - sourceline: "ppa:ansible/ansible-2.8"
+          packages:
+            - ansible
+
+before_install:
+  - sudo -H pip install ansible-lint
+
+script:
+  - ansible-lint .
+  - cd tests
+  - ansible-lint --force-color -v test.yml
+  - ansible-playbook --become -D test.yml -C -t all,debug
+  - ansible-playbook --become -D test.yml    -t all,debug
+
+...
+
+...
