@@ -11,6 +11,22 @@ env:
 matrix:
   include:
     - env:
+        - ANSIBLE_VERSION=2.4
+      addons:
+        apt:
+          sources:
+            - sourceline: "ppa:ansible/ansible-2.4"
+          packages:
+            - ansible
+    - env:
+        - ANSIBLE_VERSION=2.5
+      addons:
+        apt:
+          sources:
+            - sourceline: "ppa:ansible/ansible-2.5"
+          packages:
+            - ansible
+    - env:
         - ANSIBLE_VERSION=2.6
       addons:
         apt:
