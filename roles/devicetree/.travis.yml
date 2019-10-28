@@ -30,7 +30,7 @@ matrix:
 before_install:
 
   # the packaged python-docker in xenial does not work
-  - sudo -H pip install python-docker
+  - sudo -H pip install docker
 
   - sudo -H pip install ansible-lint
   - echo "myself ansible_connection=local ansible_become=true" > /etc/ansible/hosts
