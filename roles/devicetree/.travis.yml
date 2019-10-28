@@ -33,7 +33,7 @@ before_install:
   - sudo -H pip install docker
 
   - sudo -H pip install ansible-lint
-  - echo "myself ansible_connection=local ansible_become=true" > /etc/ansible/hosts
+  - echo "myself ansible_connection=local ansible_become=true" | sudo tee /etc/ansible/hosts >/dev/null
 
 script:
   - ansible-lint .
