@@ -28,7 +28,12 @@ matrix:
             - ansible
 
 before_install:
+
+  # the packaged python-docker in xenial does not work
+  - sudo -H pip install python-docker
+
   - sudo -H pip install ansible-lint
+  - echo "myself ansible_connection=local ansible_become=true" > /etc/ansible/hosts
 
 script:
   - ansible-lint .
@@ -36,5 +41,7 @@ script:
   - ansible-lint --force-color -v test.yml
   - ansible-playbook --become -D test.yml -C -t all,debug
   - ansible-playbook --become -D test.yml    -t all,debug
+  - ansible-playbook --become -D test.yml    -t all,debug | tee /tmp/idempotence.tee
+  - "! grep -E 'ok=.*changed=[^0].*unreachable=.*failed=' /tmp/idempotence.tee"
 
 ...

@@ -1,7 +1,7 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
-- hosts: localhost
+- hosts: all
   roles:
     - role: mafalb.devicetree
 
