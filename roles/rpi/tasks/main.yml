@@ -45,6 +45,6 @@
 
     - name: compile dtb if necessary
       when: (not _rpi_poe_dts.stat.exists) or (_rpi_poe_dts.stat.mtime < _rpi_poe_dtb.stat.mtime)
-      debug: msg="compile dtb if necessary"
+      command: /bin/true
       notify: compile dtb
 ...
