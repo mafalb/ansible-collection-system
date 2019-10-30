@@ -22,7 +22,6 @@ galaxy_info:
 
   galaxy_tags:
     - raspberry
-    - poe hat
 
 dependencies:
   - role: mafalb.devicetree
