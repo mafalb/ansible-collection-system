@@ -24,7 +24,6 @@ jobs:
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
   molecule:
-    runs-on: ubuntu-22.04
     needs: selectbranch
     strategy:
       fail-fast: false
