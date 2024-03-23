@@ -46,7 +46,19 @@
         yum repolist|grep ^epel
       changed_when: false
 
-    - name: Repository epel is enabled
+    - name: Repository epel-next is enabled (CentOS Stream)
+      when:
+        - ansible_distribution == 'CentOS'
+        - ansible_distribution_major_version is version('8', '>=')
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^epel-next
+      changed_when: false
+
+    - name: Repository epel-next is not enabled (old CentOS)
+      when:
+        - ansible_distribution == 'RedHat'
+        - ansible_distribution_major_version is version('8', '<')
       ansible.builtin.shell: |
         set -o pipefail
         ! yum repolist|grep ^epel-next
