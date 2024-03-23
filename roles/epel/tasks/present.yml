@@ -23,11 +23,33 @@
         name: "{{ epel_repos }}"
       when: ansible_distribution == 'RedHat'
 
-    - name: Enable dependency repos (RHEL clones)
+    # better use  community.general.dnf_config_manager
+    # introduced in 8.2 (ansible-core 2.15.2)
+    # workaround to make it work on ansible-core 2.14
+    - name: Get state of dependency repos (RHEL clones)
       when: ansible_distribution != 'RedHat'
-      ansible.builtin.command:
+      ansible.builtin.shell: |
+        set -o pipefail
+        dnf repolist --enabled | grep ^{{ repo }}
+      loop_control:
+        loop_var: repo
+      loop: "{{ epel_repos }}"
+      changed_when: false
+      failed_when: false
+      register: __repolist
+
+    - name: Debug
+      ansible.builtin.debug:
+        var: __repolist
+
+    - name: Enable dependency repos (RHEL clones)
+      when:
+        - ansible_distribution != 'RedHat'
+        - __repolist.results[i].rc == 1
+      ansible.builtin.command:  # noqa no-changed-when
         cmd: dnf config-manager --set-enabled {{ repo }}
       loop_control:
         loop_var: repo
+        index_var: i
       loop: "{{ epel_repos }}"
 ...
