@@ -15,9 +15,9 @@
         parents: el8andnewer
       changed_when: false
 
-- name: converge epel next
+- name: Converge epel next
   hosts: el8andnewer
   roles:
     - role: mafalb.system.epel
-      next: true
+      epel_next: true
 ...

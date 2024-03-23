@@ -7,18 +7,18 @@
   ansible.builtin.include_vars:
     file: "{{ item }}"
   with_first_found:
-  - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-  - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
 
 - name: Assertions
   ansible.builtin.assert:
     that:
       - epel_state in [ 'present', 'absent' ]
 
-- name: include_tasks for epel_state
+- name: Include_tasks for epel_state
   ansible.builtin.include_tasks: "{{ epel_state }}.yml"
   when:
-  - ansible_os_family in ['RedHat', 'Rocky']
-  - ansible_distribution != 'Fedora'
-  #- ansible_distribution_major_version is version('10', '<')
+    - ansible_os_family in ['RedHat', 'Rocky']
+    - ansible_distribution != 'Fedora'
+    # - ansible_distribution_major_version is version('10', '<')
 ...

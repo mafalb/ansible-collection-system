@@ -2,40 +2,32 @@
 # GNU General Public License v3.0+
 # see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
-- name: rpm gpg key is present
+- name: RPM gpg key is present
   ansible.builtin.copy:
     src: RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
     dest: /etc/pki/rpm-gpg/
     mode: '0644'
 
-- name: rpm gpg key is imported
+- name: RPM gpg key is imported
   ansible.builtin.rpm_key:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
 
-- name: epel-release is present
+- name: Package epel-release is present
   ansible.builtin.package:
-    name: "{{ (epel_packages + epel_next_package) if epel_next else epel_packages}}"
+    name: "{{ (epel_packages + epel_next_package) if epel_next else epel_packages }}"
 
-- name: enable dependency repos
+- name: Enable dependency repos
   block:
-    - name: enable dependency repos (RHEL)
-      rhsm_repository:
+    - name: Enable dependency repos (RHEL)
+      community.general.rhsm_repository:
         name: "{{ epel_repos }}"
       when: ansible_distribution == 'RedHat'
 
-    - name: enable dependency repos (RHEL clones)
+    - name: Enable dependency repos (RHEL clones)
       when: ansible_distribution != 'RedHat'
       ansible.builtin.command:
         cmd: dnf config-manager --set-enabled {{ repo }}
       loop_control:
         loop_var: repo
       loop: "{{ epel_repos }}"
-
-    # community.general.dnf_config_manager since community.general 8.2 (ansible-core 2.15.2)
-    #
-    #- name: enable dependency repos (RHEL clones)
-    #  when: ansible_distribution != 'RedHat'
-    #  community.general.dnf_config_manager:
-    #    name: "{{ epel_repos }}"
-    #    state: enabled
 ...

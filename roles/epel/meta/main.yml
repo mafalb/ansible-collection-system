@@ -7,7 +7,7 @@ galaxy_info:
   author: Markus Falb <markus.falb@mafalb.at>
   description: Ansible role mafalb.epel.release
   license: GPL-3.0-or-later
-  min_ansible_version: 2.9
+  min_ansible_version: '2.14'
 
   # https://galaxy.ansible.com/api/v1/platforms/
   #
