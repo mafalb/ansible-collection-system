@@ -4,6 +4,7 @@
 ---
 epel_state: present
 epel_next: false
+epel_deps: true
 
 # only used when installed, not when removed
 epel_package: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
