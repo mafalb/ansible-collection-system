@@ -16,5 +16,5 @@
         set -o pipefail
         ! yum repolist|grep ^epel
       changed_when: false
-    
+
 ...

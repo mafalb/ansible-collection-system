@@ -30,7 +30,7 @@
         set -o pipefail
         yum repolist|grep ^crb
       changed_when: false
-  
+
     - name: Codeready is enabled on RHEL
       when:
         - ansible_distribution == 'RedHat'
@@ -39,7 +39,7 @@
         set -o pipefail
         yum repolist|grep ^codeready-builder-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms
       changed_when: false
-  
+
     - name: Repository epel is enabled
       ansible.builtin.shell: |
         set -o pipefail

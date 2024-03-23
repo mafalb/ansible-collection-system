@@ -22,7 +22,7 @@
       rhsm_repository:
         name: "{{ epel_repos }}"
       when: ansible_distribution == 'RedHat'
-        
+
     - name: enable dependency repos (RHEL clones)
       when: ansible_distribution != 'RedHat'
       ansible.builtin.command:
