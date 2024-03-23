@@ -5,7 +5,7 @@
 - name: Package epel-release is absent
   ansible.builtin.package:
     name:
-      - "{{ epel_package }}"
-      - "{{ epel_next_package }}"
+      - epel-release
+      - epel-next-release
     state: absent
 ...

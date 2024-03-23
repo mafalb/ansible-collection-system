@@ -14,7 +14,7 @@
 
 - name: Package epel-release is present
   ansible.builtin.package:
-    name: "{{ (epel_packages + epel_next_package) if epel_next else epel_packages }}"
+    name: "{{ (epel_packages + [epel_next_package]) if epel_next else epel_packages }}"
 
 - name: Enable dependency repos
   block:
