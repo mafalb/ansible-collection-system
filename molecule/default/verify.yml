@@ -1,0 +1,52 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+
+- name: Verify
+  hosts: all
+  module_defaults:
+    ansible.builtin.shell:
+      executable: /bin/bash
+
+  tasks:
+
+    # It's named differently on RHEL clones
+    - name: Powertools is enabled on RHEL clones
+      when:
+        - ansible_distribution != 'RedHat'
+        - ansible_distribution_major_version is version('8', '==')
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^powertools
+      changed_when: false
+    #
+    # It's named differently on RHEL clones
+    - name: Repository crb is enabled on RHEL clones
+      when:
+        - ansible_distribution != 'RedHat'
+        - ansible_distribution_major_version is version('8', '>')
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^crb
+      changed_when: false
+  
+    - name: Codeready is enabled on RHEL
+      when:
+        - ansible_distribution == 'RedHat'
+        - ansible_distribution_major_version is version('8', '>=')
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^codeready-builder-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms
+      changed_when: false
+  
+    - name: Repository epel is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^epel
+      changed_when: false
+
+    - name: Test package install
+      ansible.builtin.package:
+        name: epel-rpm-macros.noarch
+...

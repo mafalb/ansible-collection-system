@@ -1,0 +1,20 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+
+- name: Verify epel-next
+  hosts: all
+  module_defaults:
+    ansible.builtin.shell:
+      executable: /bin/bash
+
+  tasks:
+
+    - name: Repository epel-next is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^epel-next
+      changed_when: false
+
+...

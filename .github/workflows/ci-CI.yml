@@ -1,0 +1,57 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+
+name: CI
+on:  # yamllint disable-line rule:truthy
+  workflow_call:
+    inputs:
+      targeted_branch:
+        type: string
+
+jobs:
+
+  selectbranch:
+    uses: mafalb/workflows/.github/workflows/reusable-selectbranch.yml@prod
+    with:
+      targeted_branch: ${{ inputs.targeted_branch }}
+
+  ansiblecollection:
+    needs: selectbranch
+    uses: mafalb/workflows/.github/workflows/reusable-ansiblecollection.yml@prod
+    with:
+      targeted_branch: ${{ needs.selectbranch.outputs.ref }}
+
+  molecule:
+    runs-on: ubuntu-22.04
+    needs: selectbranch
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - centos7
+          - c8s
+          - c9s
+          - alma8
+          - alma9
+          - rocky8
+          - rocky9
+
+    uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@prod
+    name: molecule ${{ matrix.target }}
+    with:
+      target: ${{ matrix.target }}
+      scenarios: "default, custom_template, squid_cfg"
+      targeted_branch: ${{ needs.selectbranch.outputs.ref }}
+
+  allsuccess:
+    if: success() || failure()
+    uses: mafalb/workflows/.github/workflows/reusable-allsuccess.yml@prod
+    with:
+      joblist: ${{ toJSON(needs) }}
+    needs:
+      - selectbranch
+      - ansiblecollection
+      - molecule
+...

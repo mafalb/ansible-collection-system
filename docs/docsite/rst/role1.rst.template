@@ -1,0 +1,29 @@
+..
+  Copyright (c) Markus Falb <markus.falb@mafalb.at>
+  GNU General Public License v3.0+
+  see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+
+.. _ansible_collections.mafalb.system.docsite.role1:
+
+mafalb.system.role1
+===========================================
+
+An ansible role for system.
+
+Basic Usage
+-----------
+
+.. code-block:: yaml+jinja
+
+  - name: Install system
+    hosts: localhost
+    roles:
+      - role: mafalb.system.role1
+..
+
+License
+-------
+
+Copyright (c) Markus Falb <markus.falb@mafalb.at>
+
+GPL-3.0-or-later

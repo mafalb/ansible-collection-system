@@ -1,0 +1,32 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+
+# CI for the collection mafalb.system
+
+---
+name: CI
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*'
+  schedule:
+    - cron: '40 12 * * 6'
+  workflow_dispatch:
+    inputs:
+      targeted_branch:
+        description: The name of the target branch on other repositories
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  ci:
+    if: ${{ ! (github.event.pull_request.head.repo.full_name == github.repository) }}
+    uses: ./.github/workflows/ci-CI.yml
+    with:
+      targeted_branch: ${{ inputs.targeted_branch }}
+...

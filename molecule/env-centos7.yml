@@ -1,0 +1,6 @@
+---
+CI_IMAGE: quay.io/centos/centos:7
+CI_HOSTNAME: ci-centos7
+CI_DOCKERFILE: Dockerfile-rhel7.j2
+CI_CONTAINER_PRIVILEGED: 'true'
+...

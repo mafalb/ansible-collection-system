@@ -1,0 +1,18 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: converge epel
+  hosts: all
+  module_defaults:
+    ansible.builtin.shell:
+      executable: /bin/bash
+  roles:
+    - role: mafalb.system.epel
+  tasks:
+    - name: Verify that repository epel is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep ^epel
+      changed_when: false
+...
