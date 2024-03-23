@@ -3,8 +3,26 @@
 # see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
 
-- name: Verify epel-next
+- name: Build target hostlist for epel-next
   hosts: all
+  module_defaults:
+    ansible.builtin.shell:
+      executable: /bin/bash
+
+  tasks:
+    - name: Get eligible nodes for epel-next-release
+      when:
+        - ansible_distribution_major_version is version('8','>=')
+        - ansible_distribution != 'Fedora'
+        - ansible_os_family == 'RedHat'
+      ansible.builtin.group_by:
+        key: el{{ ansible_distribution_major_version }}
+        parents: el8andnewer
+      changed_when: false
+
+
+- name: Verify epel-next
+  hosts: el8andnewer
   module_defaults:
     ansible.builtin.shell:
       executable: /bin/bash
@@ -22,5 +40,4 @@
         set -o pipefail
         yum repolist|grep ^epel-next
       changed_when: false
-
 ...
