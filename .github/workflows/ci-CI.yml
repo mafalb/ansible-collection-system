@@ -41,7 +41,7 @@ jobs:
     name: molecule ${{ matrix.target }}
     with:
       target: ${{ matrix.target }}
-      scenarios: "default, custom_template, squid_cfg"
+      scenarios: "default, epel-next, epel-absent"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
   allsuccess:
