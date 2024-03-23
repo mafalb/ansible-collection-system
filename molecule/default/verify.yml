@@ -46,6 +46,12 @@
         yum repolist|grep ^epel
       changed_when: false
 
+    - name: Repository epel is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        ! yum repolist|grep ^epel-next
+      changed_when: false
+
     - name: Test package install
       ansible.builtin.package:
         name: epel-rpm-macros.noarch

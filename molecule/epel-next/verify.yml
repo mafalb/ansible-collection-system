@@ -11,6 +11,12 @@
 
   tasks:
 
+    - name: Repository epel is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        yum repolist|grep "^epel\s"
+      changed_when: false
+
     - name: Repository epel-next is enabled
       ansible.builtin.shell: |
         set -o pipefail
