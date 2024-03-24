@@ -13,7 +13,7 @@
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
 
 - name: Check if epel-release is present already
-  ansible.builtin.command:
+  ansible.builtin.command:  # noqa command-instead-of-module
     cmd: rpm -q {{ (epel_packages + [epel_next_package]) | unique if epel_next else epel_packages }}
   changed_when: false
   failed_when: false
@@ -27,7 +27,7 @@
     var: __package
 
 - name: Package epel-release is present
-  when: __package.rc == 1
+  when: __package.rc != 0
   ansible.builtin.package:
     name: "{{ (epel_packages + [epel_next_package]) | unique if epel_next else epel_packages }}"
 
