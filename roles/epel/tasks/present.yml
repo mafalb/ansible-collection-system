@@ -32,7 +32,7 @@
     name: "{{ (epel_packages + [epel_next_package]) | unique if epel_next else epel_packages }}"
 
 - name: Enable dependency repos
-  when: epel_deps
+  when: epel_deps is true
   block:
 
     - name: Enable dependency repos (RHEL)
