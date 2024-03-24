@@ -23,7 +23,7 @@ jobs:
     with:
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
-  molecule:
+  epel:
     needs: selectbranch
     strategy:
       fail-fast: false
@@ -44,6 +44,35 @@ jobs:
       scenarios: "default, epel-next, epel-absent"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
+  tlp:
+    needs: selectbranch
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - fedora38
+          - fedora39
+          - fedora40
+          - c8s
+          - c9s
+          - centos7
+          - alma8
+          - alma9
+          - rocky8
+          - rocky9
+          - debian11
+          - debian12
+          - ubuntu20
+          - ubuntu22
+          - ubuntu24
+
+    uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@prod
+    name: molecule ${{ matrix.target }}
+    with:
+      target: ${{ matrix.target }}
+      scenarios: "tlp"
+      targeted_branch: ${{ needs.selectbranch.outputs.ref }}
+
   allsuccess:
     if: success() || failure()
     uses: mafalb/workflows/.github/workflows/reusable-allsuccess.yml@prod
@@ -52,5 +81,6 @@ jobs:
     needs:
       - selectbranch
       - ansiblecollection
-      - molecule
+      - epel
+      - tlp
 ...

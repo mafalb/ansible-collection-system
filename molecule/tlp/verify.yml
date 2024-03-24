@@ -1,0 +1,14 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: Verify tlp
+  hosts: all
+  module_defaults:
+    ansible.builtin.shell:
+      executable: /bin/bash
+  tasks:
+    - name: tlp is present
+      ansible.builtin.shell: tlp 2>&1|grep ^Usage
+      changed_when: false
+...
