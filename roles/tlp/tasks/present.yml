@@ -16,8 +16,8 @@
     file: "{{ file }}"
   with_first_found:
     - files:
-      - "{{ ansible_distribution }}.yml"
-      - "{{ ansible_os_family }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
       skip: true
   loop_control:
     loop_var: file
