@@ -1,20 +1,32 @@
-# vim: set ft=yaml ts=2 expandtab:
-#
-# ___license___
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
-
 argument_specs:
   main:
-    short_description: tlp
+    short_description: Ansible role for tlp
     description:
-      - tlp
+      - Ansible role for tlp
 
     options:
-      tlp_var:
+      tlp_cfg_template:
         description:
-          - What this var does
-        type: list
-        elements: str
+          - Name of the tlp config file
+        type: path
         default:
-          - default value
+          - 'mafalb.system.tlp.tlp.conf.j2'
+      tlp_dependencies:
+        description:
+          - Shall dependencies be installed?
+        type: bool
+        default:
+          - true
+      tlp_state:
+        description:
+          - Name of the tlp config file
+        type: str
+        choices:
+          - absent
+          - present
+        default: present
 ...

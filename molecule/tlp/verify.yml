@@ -7,9 +7,28 @@
   module_defaults:
     ansible.builtin.shell:
       executable: /bin/bash
+
   tasks:
+
     - name: Tlp is present  # noqa risky-shell-pipe
       ansible.builtin.shell: |
         tlp 2>&1|grep ^Usage
+      changed_when: false
+
+    - name: Tlp config file is present
+      ansible.builtin.command:
+        cmd: grep "85ff28d6-cc66-4b32-8881-1fc1f9098873" /etc/tlp.conf
+      changed_when: false
+
+    - name: Tlp is running
+      ansible.builtin.shell: |
+        set -o pipefail
+        systemctl status tlp | grep "Active: active (exited)"
+      changed_when: false
+
+    - name: Tlp is enabled
+      ansible.builtin.shell: |
+        set -o pipefail
+        systemctl status tlp | grep "; enabled;"
       changed_when: false
 ...

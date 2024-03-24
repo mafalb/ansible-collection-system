@@ -6,4 +6,5 @@
   hosts: all
   roles:
     - role: mafalb.system.tlp
+      tlp_cfg_template: tlp.conf.j2
 ...

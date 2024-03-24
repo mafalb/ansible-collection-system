@@ -14,6 +14,10 @@ platforms:
   - name: ${CI_HOSTNAME}
     image: ${CI_IMAGE}
     dockerfile: ../${CI_DOCKERFILE}
+    command: /lib/systemd/systemd
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    systemd: always
 
 provisioner:
   name: ansible

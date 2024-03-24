@@ -1,11 +1,12 @@
 ..
-  Copyright (c) ___author___
-  ___license___
+  Copyright (c) Markus Falb <markus.falb@mafalb.at> (https://github.com/mafalb) @mafalb
+  GNU General Public License v3.0+
+  see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 
-.. _ansible_collections.___namespace___.___collection_name___.tlp.docsite.tlp_role:
+.. _ansible_collections.mafalb.system.tlp.docsite.tlp_role:
 
-___namespace___.tlp
-===============================
+mafalb.system.tlp
+=================
 
 An ansible role for tlp.
 
@@ -15,14 +16,13 @@ Basic Usage
 .. code-block:: yaml+jinja
 
     - roles:
-        - role: ___namespace___.___collection_name___.tlp
-          tlp_variable: bla
+        - role: mafalb.system.tlp
 ..
 
 
 License
 -------
 
-Copyright (c) ___author___
+Copyright (c) Markus Falb <markus.falb@mafalb.at> (https://github.com/mafalb) @mafalb
 
-___licenseshort___
+GPL-3.0-or-later
