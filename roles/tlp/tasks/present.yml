@@ -2,22 +2,13 @@
 # GNU General Public License v3.0+
 # see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
-- name: Get OS specific variables
-  ansible.builtin.include_vars:
-    file: "{{ file }}"
-  with_first_found:
-    - "{{ ansible_distribution }}.yml"
-    - "{{ ansible_os_family }}.yml"
-  loop_control:
-    loop_var: file
-
 - name: Install dependencies
+  when: tlp_dependencies is true
   ansible.builtin.include_tasks:
     file: "{{ file }}"
   with_first_found:
     - files:
         - "{{ ansible_distribution }}.yml"
-        - "{{ ansible_os_family }}.yml"
       skip: true
   loop_control:
     loop_var: file

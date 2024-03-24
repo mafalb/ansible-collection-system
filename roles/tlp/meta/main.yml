@@ -50,9 +50,5 @@ galaxy_info:
   galaxy_tags:
     - linux
 
-dependencies:
-  - role: mafalb.system.epel
-    when:
-      - ansible_os_family in ['RedHat', 'Rocky']
-      - ansible_distribution != 'Fedora'
+dependencies: []
 ...

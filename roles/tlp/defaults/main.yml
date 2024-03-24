@@ -2,5 +2,6 @@
 #
 # ___license___
 ---
+tlp_dependencies: true
 tlp_state: present
 ...
