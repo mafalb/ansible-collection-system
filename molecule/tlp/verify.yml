@@ -8,7 +8,8 @@
     ansible.builtin.shell:
       executable: /bin/bash
   tasks:
-    - name: tlp is present
-      ansible.builtin.shell: tlp 2>&1|grep ^Usage
+    - name: Tlp is present  # noqa risky-shell-pipe
+      ansible.builtin.shell: |
+        tlp 2>&1|grep ^Usage
       changed_when: false
 ...
