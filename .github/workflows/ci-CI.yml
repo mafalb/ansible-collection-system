@@ -67,7 +67,7 @@ jobs:
           - ubuntu22
           - ubuntu24
 
-    uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@prod
+    uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@dev
     name: molecule ${{ matrix.target }}
     with:
       name: tlp
