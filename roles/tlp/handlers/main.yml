@@ -4,7 +4,7 @@
 ---
 - name: Reload tlp
   when: not _tlp_has_started.changed
-  ansible.builtin.service:
+  ansible.builtin.service:  # noqa no-handler
     name: tlp
     state: reloaded
     enabled: true
