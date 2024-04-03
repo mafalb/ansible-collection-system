@@ -24,4 +24,12 @@
     dest: /etc/tlp.conf
     mode: "0644"
   notify: Reload tlp
+
+- name: Tlp is running
+  ansible.builtin.service:
+    name: tlp
+    state: started
+    enabled: true
+  register: _tlp_has_started
+
 ...

@@ -18,6 +18,8 @@ platforms:
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
     systemd: always
+    extra_args:
+      ${CI_PODMAN_EXTRA_OPTS:-[]}
 
 provisioner:
   name: ansible

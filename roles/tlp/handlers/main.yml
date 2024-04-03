@@ -3,6 +3,7 @@
 # see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
 - name: Reload tlp
+  when: not _tlp_has_started.changed
   ansible.builtin.service:
     name: tlp
     state: reloaded
