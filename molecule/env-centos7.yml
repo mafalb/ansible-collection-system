@@ -2,4 +2,6 @@
 CI_IMAGE: quay.io/centos/centos:7
 CI_HOSTNAME: ci-centos7
 CI_DOCKERFILE: Dockerfile-rhel7.j2
+CI_PODMAN_EXTRA_OPTS: "- --annotation=run.oci.systemd.force_cgroup_v1=/sys/fs/cgroup"
+CI_CONTAINER_CMD: "/lib/systemd/systemd"
 ...
