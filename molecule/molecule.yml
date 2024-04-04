@@ -15,10 +15,12 @@ platforms:
     image: ${CI_IMAGE}
     dockerfile: ../${CI_DOCKERFILE}
     command: /lib/systemd/systemd
+    capabilities:
+      - SYS_ADMIN
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
     systemd: always
-    extra_args:
+    extra_opts:
       ${CI_PODMAN_EXTRA_OPTS:-[]}
 
 provisioner:
