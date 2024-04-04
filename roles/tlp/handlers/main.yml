@@ -1,0 +1,11 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: Reload tlp
+  when: not _tlp_has_started.changed
+  ansible.builtin.service:  # noqa no-handler
+    name: tlp
+    state: reloaded
+    enabled: true
+...

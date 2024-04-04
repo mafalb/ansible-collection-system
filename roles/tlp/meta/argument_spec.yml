@@ -1,0 +1,32 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+argument_specs:
+  main:
+    short_description: Ansible role for tlp
+    description:
+      - Ansible role for tlp
+
+    options:
+      tlp_cfg_template:
+        description:
+          - Name of the tlp config file
+        type: path
+        default:
+          - 'mafalb.system.tlp.tlp.conf.j2'
+      tlp_dependencies:
+        description:
+          - Shall dependencies be installed?
+        type: bool
+        default:
+          - true
+      tlp_state:
+        description:
+          - Name of the tlp config file
+        type: str
+        choices:
+          - absent
+          - present
+        default: present
+...

@@ -1,0 +1,35 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: Install dependencies
+  when: tlp_dependencies is true
+  ansible.builtin.include_tasks:
+    file: "{{ file }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+      skip: true
+  loop_control:
+    loop_var: file
+
+- name: Tlp is present
+  ansible.builtin.package:
+    name: tlp
+
+- name: Tlp config is present
+  ansible.builtin.template:
+    src: "{{ tlp_cfg_template }}"
+    dest: /etc/tlp.conf
+    mode: "0644"
+  notify: Reload tlp
+
+- name: Tlp is running
+  ansible.builtin.service:
+    name: tlp
+    state: started
+    enabled: true
+  register: _tlp_has_started
+
+...
