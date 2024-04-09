@@ -9,6 +9,44 @@
     - "{{ ansible_distribution }}.yml"
     - "{{ ansible_os_family }}.yml"
 
+- name: Enable CodeReady/Powertools
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version is version('8', '==')
+  block:
+
+    - name: Enable dependency repos (RHEL)
+      when: ansible_distribution == 'RedHat'
+      community.general.rhsm_repository:
+        name: codeready-builder-for-rhel-8-{{ ansible_architecture }}-rpms
+
+    - name: Enable dependency repos (RHEL clones)
+      when: ansible_distribution != 'RedHat'
+      block:
+        # better use  community.general.dnf_config_manager
+        # introduced in 8.2 (ansible-core 2.15.2)
+        # for now workaround to make it work on ansible-core 2.14
+        - name: Get state of dependency repos (RHEL clones)
+          ansible.builtin.shell: |
+            set -o pipefail
+            dnf repolist --enabled | grep ^{{ repo }}
+          loop_control:
+            loop_var: repo
+          loop: "{{ epel_repos }}"
+          changed_when: false
+          failed_when: false
+          register: __repolist
+
+        - name: Enable dependency repos (RHEL clones)
+          when:
+            - __repolist.results[i].rc == 1
+          ansible.builtin.command:  # noqa no-changed-when
+            cmd: dnf config-manager --set-enabled powertools
+          loop_control:
+            loop_var: repo
+            index_var: i
+          loop: "{{ epel_repos }}"
+
 - name: Devicetree compiler dtc is present
   ansible.builtin.package:
     name: "{{ devicetree_compiler_pkg }}"

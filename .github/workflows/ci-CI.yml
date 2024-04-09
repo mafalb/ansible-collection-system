@@ -45,7 +45,7 @@ jobs:
       scenarios: "default, epel-next, epel-absent"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
-  tlp:
+  molecule:
     needs: selectbranch
     strategy:
       fail-fast: false
@@ -70,7 +70,7 @@ jobs:
     uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@dev
     name: molecule ${{ matrix.target }}
     with:
-      name: tlp
+      name: molecule
       target: ${{ matrix.target }}
       scenarios: "tlp, devicetree"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
