@@ -72,7 +72,7 @@ jobs:
     with:
       name: tlp
       target: ${{ matrix.target }}
-      scenarios: "tlp"
+      scenarios: "tlp, devicetree"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
   allsuccess:

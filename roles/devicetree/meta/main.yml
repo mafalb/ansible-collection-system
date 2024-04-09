@@ -8,17 +8,28 @@ galaxy_info:
   license: GPLv3
   min_ansible_version: '2.14'
 
-  # https://galaxy.ansible.com/api/v1/platforms/
   platforms:
 
-    - name: EL
+    - name: Debian
       versions:
-        - '9'
+        - bullseye
+        - bookworm
 
     - name: Ubuntu
       versions:
         - focal
         - jammy
+        - noble
+    - name: EL
+      versions:
+        - "7"
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "38"
+        - "39"
+        - "40"
 
   galaxy_tags:
     - devicetree
