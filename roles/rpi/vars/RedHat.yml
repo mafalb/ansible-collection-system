@@ -1,0 +1,4 @@
+# vim: ft=yaml ts=2:
+---
+
+__rc_local: /etc/rc.d/rc.local

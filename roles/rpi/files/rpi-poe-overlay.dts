@@ -1,0 +1,70 @@
+/*
+ * Overlay for the Raspberry Pi POE HAT.
+ */
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2708";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			fan0: rpi-poe-fan@0 {
+				compatible = "raspberrypi,rpi-poe-fan";
+				firmware = <&firmware>;
+				cooling-min-state = <0>;
+				cooling-max-state = <4>;
+				#cooling-cells = <2>;
+				cooling-levels = <0 10 50 150 255>;
+				status = "okay";
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&cpu_thermal>;
+		__overlay__ {
+			trips {
+				threshold: trip-point@0 {
+					temperature = <6000>;
+					hysteresis = <6000>;
+					type = "active";
+				};
+				target: trip-point@1 {
+					temperature = <60000>;
+					hysteresis = <10000>;
+					type = "active";
+				};
+				target2: trip-point@2 {
+					temperature = <65000>;
+					hysteresis = <4000>;
+					type = "active";
+				};
+				cpu_hot: cpu_hot@0 {
+					temperature = <70000>;
+					hysteresis = <4000>;
+					type = "active";
+				};
+			};
+			cooling-maps {
+				map0 {
+					trip = <&threshold>;
+					cooling-device = <&fan0 0 1>;
+				};
+				map1 {
+					trip = <&target>;
+					cooling-device = <&fan0 1 2>;
+				};
+				map2 {
+					trip = <&target2>;
+					cooling-device = <&fan0 2 3>;
+				};
+				map3 {
+					trip = <&cpu_hot>;
+					cooling-device = <&fan0 3 4>;
+				};
+			};
+		};
+	};
+};

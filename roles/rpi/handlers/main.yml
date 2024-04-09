@@ -1,0 +1,29 @@
+# vi: set ft=yaml ts=2 expandtab nowrap:
+---
+
+# the next one is necessary because destination is vfat
+# https://github.com/ansible/ansible/issues/40220
+#
+- name: copy dtb
+  copy:
+    src: /root/rpi-poe-overlay.dts
+    dest: /boot/overlays/
+    remote_src: true
+    backup: true
+  listen: compile dtb
+
+- name: compile rpi-poe.dtbo
+  command: dtc -@ -I dts -O dtb -o /boot/overlays/rpi-poe.dtbo /boot/overlays/rpi-poe-overlay.dts
+  listen: compile dtb
+
+- name: touch rpi-poe-overlay.dts
+  file:
+    path: /boot/overlays/rpi-poe-overlay.dts
+    state: touch
+  listen: compile dtb
+
+- name: reboot
+  listen: compile dtb
+  reboot:
+
+...
