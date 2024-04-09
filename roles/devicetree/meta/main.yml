@@ -1,0 +1,27 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+galaxy_info:
+  role_name: devicetree
+  version: 1.0.1
+  author: Markus Falb <markus.falb@mafalb.at>
+  description: installs devicetree compiler
+  license: GPLv3
+  min_ansible_version: 2.3
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  platforms:
+
+    - name: EL
+      versions:
+        - 7
+
+    - name: Debian
+      versions:
+        - buster
+
+  galaxy_tags:
+    - devicetree
+    - raspberry
+
+...
