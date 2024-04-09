@@ -1,50 +1,16 @@
-# vi: set ft=yaml ts=2 expandtab:
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
 
-- name: load OS specific variables
-  include_vars:
-    file: "{{ ansible_os_family }}.yml"
+- name: Load OS specific variables
+  ansible.builtin.include_vars:
+    file: "{{ ansible_distribution }}.yml"
 
-- name: config.txt is present
-  template:
-    src: config.txt.j2
-    dest: /boot/config.txt
-  notify: reboot
-
-- name: poe hat fan
-  block:
-
-    - name: the device tree source is present
-      copy:
-        src: rpi-poe-overlay.dts
-        dest: /root/rpi-poe-overlay.dts
-      register: _raspberry_poe_overlay
-      notify: compile dtb
-
-    - name: get mtime from dtb
-      stat:
-        path: /boot/overlays/rpi-poe.dtbo
-      register: _rpi_poe_dtb
-
-    - name: get mtime from dts
-      stat:
-        path: /boot/overlays/rpi-poe-overlay.dts
-      register: _rpi_poe_dts
-
-    - name: debug _rpi_poe_dtb
-      debug: var=_rpi_poe_dtb
-      tags:
-        - never
-        - debug
-
-    - name: debug _rpi_poe_dts
-      debug: var=_rpi_poe_dts
-      tags:
-        - never
-        - debug
-
-    - name: compile dtb if necessary
-      when: (not _rpi_poe_dts.stat.exists) or (_rpi_poe_dts.stat.mtime < _rpi_poe_dtb.stat.mtime)
-      command: /bin/true
-      notify: compile dtb
+- name: Firmware config is present
+  ansible.builtin.template:
+    src: "{{ rpi_firmware_config_template }}"
+    dest: "{{ rpi_firmware_config }}"
+    mode: '0644'
+  notify: Reboot
 ...

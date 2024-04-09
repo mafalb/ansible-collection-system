@@ -1,8 +1,6 @@
-# vim: ft=yaml ts=2:
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txtk
 ---
-
-raspberry:
-  firmware:
-    dtoverlays: {}
-    settings: {}
-      
+rpi_firmware_config_template: "mafalb.system.rpi.config.txt.j2"
+...

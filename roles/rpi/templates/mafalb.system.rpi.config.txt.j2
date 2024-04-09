@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+#
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+
+[pi3]
+dtparam=poe_fan_temp3=79000,poe_fan_temp0_hyst=2000
+dtparam=poe_fan_temp2=77000,poe_fan_temp1_hyst=5000
+dtparam=poe_fan_temp1=72000,poe_fan_temp2_hyst=3000
+dtparam=poe_fan_temp0=30000,poe_fan_temp3_hyst=1000
+dtoverlay=
+
+[pi4]
+dtparam=poe_fan_temp3=79000,poe_fan_temp0_hyst=2000
+dtparam=poe_fan_temp2=77000,poe_fan_temp1_hyst=5000
+dtparam=poe_fan_temp1=72000,poe_fan_temp2_hyst=3000
+dtparam=poe_fan_temp0=30000,poe_fan_temp3_hyst=1000
+
+[all]
