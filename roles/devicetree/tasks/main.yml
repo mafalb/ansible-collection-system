@@ -36,7 +36,7 @@
 
         - name: Enable dependency repos (RHEL clones)
           when:
-            - __repolist.results[i].rc == 1
+            - __repolist.rc == 1
           ansible.builtin.command:  # noqa no-changed-when
             cmd: dnf config-manager --set-enabled powertools
 
