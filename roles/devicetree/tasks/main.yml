@@ -20,6 +20,11 @@
       community.general.rhsm_repository:
         name: codeready-builder-for-rhel-8-{{ ansible_architecture }}-rpms
 
+    - name: Dnf config-manager is present
+      when: ansible_distribution != 'RedHat'
+      ansible.builtin.package:
+        name: dnf-plugins-core
+
     - name: Enable dependency repos (RHEL clones)
       when: ansible_distribution != 'RedHat'
       block:
