@@ -13,6 +13,7 @@
   when:
     - ansible_os_family == 'RedHat'
     - ansible_distribution_major_version is version('8', '==')
+    - ansible_distribution != 'Fedora'
   block:
 
     - name: Enable dependency repos (RHEL)
@@ -28,13 +29,14 @@
     - name: Enable dependency repos (RHEL clones)
       when: ansible_distribution != 'RedHat'
       block:
+
         # better use  community.general.dnf_config_manager
         # introduced in 8.2 (ansible-core 2.15.2)
         # for now workaround to make it work on ansible-core 2.14
         - name: Get state of dependency repos (RHEL clones)
           ansible.builtin.shell: |
             set -o pipefail
-            dnf repolist --enabled powertools
+            dnf repolist --enabled | grep powertools
           changed_when: false
           failed_when: false
           register: __repolist
