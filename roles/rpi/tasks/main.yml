@@ -1,0 +1,16 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+
+- name: Load OS specific variables
+  ansible.builtin.include_vars:
+    file: "{{ ansible_distribution }}.yml"
+
+- name: Firmware config is present
+  ansible.builtin.template:
+    src: "{{ rpi_firmware_config_template }}"
+    dest: "{{ rpi_firmware_config }}"
+    mode: '0644'
+  notify: Reboot
+...

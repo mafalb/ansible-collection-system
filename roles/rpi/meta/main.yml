@@ -1,0 +1,27 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+galaxy_info:
+  role_name: rpi
+  author: Markus Falb <markus.falb@mafalb.at>
+  description: Some helpful stuff for raspberry pi
+  license: GPLv3
+  min_ansible_version: '2.14'
+
+  # https://galaxy.ansible.com/api/v1/platforms/
+  platforms:
+
+    - name: EL
+      versions:
+        - '9'
+
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+
+  galaxy_tags:
+    - raspberry
+    - system
+...

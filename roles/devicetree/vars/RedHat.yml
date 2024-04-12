@@ -1,0 +1,4 @@
+# vim: set ft=yaml ft=2 expandtab:
+---
+devicetree_compiler_pkg: dtc
+...
