@@ -1,0 +1,34 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: ISO-2022-CN-EXT is disabled
+  ansible.builtin.lineinfile:
+    path: "{{ cve_2024_2961_cfg }}"
+    regexp: '(alias.*ISO-2022-CN-EXT.*$)'
+    line: '#\1'
+    backrefs: true
+    state: present
+    backup: true
+  notify: Run iconvconf
+
+- name: ISO-2022-CN-EXT is disabled
+  ansible.builtin.lineinfile:
+    path: "{{ cve_2024_2961_cfg }}"
+    regexp: '(module\s+ISO-2022-CN-EXT.*$)'
+    line: '#\1'
+    backrefs: true
+    state: present
+    backup: true
+  notify: Run iconvconf
+
+- name: ISO-2022-CN-EXT is disabled
+  ansible.builtin.lineinfile:
+    path: "{{ cve_2024_2961_cfg }}"
+    regexp: '(module\s+INTERNAL.*ISO-2022-CN-EXT.*$)'
+    line: '#\1'
+    backrefs: true
+    state: present
+    backup: true
+  notify: Run iconvconf
+...

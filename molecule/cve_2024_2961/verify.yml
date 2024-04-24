@@ -1,0 +1,28 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: Verify cve_2024_2961 is mitigated
+  hosts: group_mitigate
+  tasks:
+    - name: Assert that ISO-2022-CN-EXT is disabled
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          iconv -l | grep ISO-2022-CN-EXT
+      register: __iconv
+      changed_when: false
+      failed_when: __iconv.rc == 0
+
+- name: Verify that ISO-2022-CN-EXT is enabled
+  hosts: group_dontmitigate
+  tasks:
+    - name: Assert that ISO-2022-CN-EXT is enabled
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          iconv -l | grep ISO-2022-CN-EXT
+      register: __iconv
+      changed_when: false
+      failed_when: __iconv.rc != 0
+...

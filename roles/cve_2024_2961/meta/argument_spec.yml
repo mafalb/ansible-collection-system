@@ -1,0 +1,20 @@
+# vim: set ft=yaml ts=2 expandtab:
+#
+# ___license___
+---
+
+argument_specs:
+  main:
+    short_description: iconv
+    description:
+      - iconv
+
+    options:
+      iconv_var:
+        description:
+          - What this var does
+        type: list
+        elements: str
+        default:
+          - default value
+...

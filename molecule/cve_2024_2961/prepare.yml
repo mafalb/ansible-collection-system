@@ -1,0 +1,10 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+- name: Mitigate cve_2024_2961
+  hosts: group_x
+  roles:
+    - role: mafalb.system.cve_2024_2961
+      cve_2024_2961_mitigation: enabled
+...
