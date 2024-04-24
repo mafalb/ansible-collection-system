@@ -7,21 +7,21 @@ platforms:
   - name: ${CI_HOSTNAME}-1
     image: ${CI_IMAGE}
     tmpfs:
-      - /tmp
+      '/tmp': 'rw'
     groups:
       - group_mitigate
 
   - name: ${CI_HOSTNAME}-2
     image: ${CI_IMAGE}
     tmpfs:
-      - /tmp
+      '/tmp': 'rw'
     groups:
       - group_dontmitigate
 
   - name: ${CI_HOSTNAME}-3
     image: ${CI_IMAGE}
     tmpfs:
-      - /tmp
+      '/tmp': 'rw'
     groups:
       - group_x
       - group_dontmitigate
