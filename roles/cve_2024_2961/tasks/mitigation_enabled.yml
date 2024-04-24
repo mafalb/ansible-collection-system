@@ -1,0 +1,12 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+
+- name: ISO-2022-CN-EXT is disabled
+  ansible.builtin.replace:
+    path: "{{ cve_2024_2961_cfg }}"
+    regexp: '^((alias|module).*ISO-2022-CN-EXT)'
+    replace: '#\1'
+  notify: Run iconvconf
+...

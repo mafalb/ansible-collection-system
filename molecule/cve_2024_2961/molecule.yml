@@ -1,0 +1,46 @@
+# Copyright (c) Markus Falb <markus.falb@mafalb.at>
+# GNU General Public License v3.0+
+# see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+---
+platforms:
+
+  - name: ${CI_HOSTNAME}-1
+    image: ${CI_IMAGE}
+    tmpfs:
+      '/tmp': 'rw'
+    groups:
+      - group_mitigate
+
+  - name: ${CI_HOSTNAME}-2
+    image: ${CI_IMAGE}
+    tmpfs:
+      '/tmp': 'rw'
+    groups:
+      - group_dontmitigate
+
+  - name: ${CI_HOSTNAME}-3
+    image: ${CI_IMAGE}
+    tmpfs:
+      '/tmp': 'rw'
+    groups:
+      - group_x
+      - group_dontmitigate
+
+provisioner:
+  name: ansible
+  ansible_args:
+    - --tags=all,debug
+    - --diff
+  env:
+    # pick up CI-only roles
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/molecule/default/roles
+  config_options:
+    defaults:
+      gathering: smart
+      interpreter_python: auto
+      stdout_callback: community.general.yaml
+      bin_ansible_callbacks: true
+
+verifier:
+  name: ansible
+...

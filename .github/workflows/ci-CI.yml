@@ -23,7 +23,7 @@ jobs:
     with:
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
-  epel:
+  redhat:
     needs: selectbranch
     strategy:
       fail-fast: false
@@ -40,9 +40,9 @@ jobs:
     uses: mafalb/workflows/.github/workflows/reusable-molecule.yml@prod
     name: molecule ${{ matrix.target }}
     with:
-      name: epel
+      name: redhat
       target: ${{ matrix.target }}
-      scenarios: "default, epel-next, epel-absent"
+      scenarios: "default, epel-next, epel-absent, cve_2024_2961"
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
   molecule:
@@ -83,6 +83,6 @@ jobs:
     needs:
       - selectbranch
       - ansiblecollection
-      - epel
+      - redhat
       - molecule
 ...
