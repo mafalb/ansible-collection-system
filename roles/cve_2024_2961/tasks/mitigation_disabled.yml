@@ -9,7 +9,6 @@
     line: '\1'
     backrefs: true
     state: present
-    backup: true
   notify: Run iconvconf
 
 - name: ISO-2022-CN-EXT is disabled
@@ -19,7 +18,6 @@
     line: '\1'
     backrefs: true
     state: present
-    backup: true
   notify: Run iconvconf
 
 - name: ISO-2022-CN-EXT is disabled
@@ -29,6 +27,5 @@
     line: '\1'
     backrefs: true
     state: present
-    backup: true
   notify: Run iconvconf
 ...
