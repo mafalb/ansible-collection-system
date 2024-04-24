@@ -23,7 +23,7 @@ jobs:
     with:
       targeted_branch: ${{ needs.selectbranch.outputs.ref }}
 
-  redhat_molecule:
+  redhat:
     needs: selectbranch
     strategy:
       fail-fast: false
@@ -83,6 +83,6 @@ jobs:
     needs:
       - selectbranch
       - ansiblecollection
-      - epel
+      - redhat
       - molecule
 ...
