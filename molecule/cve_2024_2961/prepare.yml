@@ -2,7 +2,15 @@
 # GNU General Public License v3.0+
 # see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
 ---
-- name: Mitigate cve_2024_2961
+- name: Prepare cve_2024_2961
+  hosts: all
+  tasks:
+    - name: Iconv converters are present
+      when: ansible_distribution_major_version is version('8', '>=')
+      ansible.builtin.package:
+        name: glibc-gconv-extra
+
+- name: Prepare cve_2024_2961
   hosts: group_x
   roles:
     - role: mafalb.system.cve_2024_2961
